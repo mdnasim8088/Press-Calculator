@@ -2,7 +2,7 @@
 
 ## Local
 ```
-cd D:\calculator-custom
+cd D:\press-calculator
 npm install
 npm run dev        # http://localhost:3000
 npm run build && npm start

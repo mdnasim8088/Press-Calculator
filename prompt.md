@@ -1,6 +1,6 @@
 # Press Calculator: Step-by-Step Build Prompts
 
-> প্রজেক্ট ফোল্ডার: `D:\calculator-custom`
+> প্রজেক্ট ফোল্ডার: `D:\press-calculator`
 > কাজের অগ্রগতি: `PROGRESS.md`
 > সব নিয়ম আর থিমের পুরো বিবরণ আছে `calculator.md` ফাইলে। এই ফাইলে সেগুলো **কোন ধাপে কী বানানো হবে**, সেই ক্রমে সাজানো।
 > প্রতিটা ধাপে আগে বাংলায় ছোট ব্যাখ্যা, তারপর বিল্ড করার প্রম্পট।
@@ -13,7 +13,7 @@
 **বাংলায়:** খালি Next.js প্রজেক্ট তৈরি করা আর দরকারি প্যাকেজ ইনস্টল করা।
 
 **Prompt:**
-- Scaffold Next.js (App Router) + TypeScript + Tailwind CSS in `calculator-custom`, using the `src/` folder.
+- Scaffold Next.js (App Router) + TypeScript + Tailwind CSS in `press-calculator`, using the `src/` folder.
 - Install `lucide-react` (icons), `zustand` (global state) and `vitest` (tests).
 - Read `node_modules/next/dist/docs/` before writing code, because this Next.js version may have breaking changes.
 

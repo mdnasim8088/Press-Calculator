@@ -30,7 +30,7 @@
 ## কীভাবে চালাবেন
 
 ```
-cd D:\calculator-custom
+cd D:\press-calculator
 npm test
 ```
 

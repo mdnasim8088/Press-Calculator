@@ -1,6 +1,6 @@
 # Press Calculator: Master Prompt (v2, with Theme)
 
-> Project folder: `calculator-custom`
+> Project folder: `press-calculator`
 > App name: **Press Calculator**
 > Purpose: a personal/business calculator for printing, stickers, cutter stickers, banners, vinyl and other print-material work.
 > Visual direction: dark teal "gaming HUD" style, based on the user's reference image (a futuristic game-UI concept).
@@ -281,7 +281,7 @@ Use the display font only for headings. Never use it for input values or long te
 ## Step 5: Architecture Principles
 
 ```
-calculator-custom/
+press-calculator/
 ├── src/
 │   ├── core/              # Pure TypeScript calculation engine (no React)
 │   │   ├── units/         # unit conversion (mm, cm, m, inch, ft)
@@ -339,7 +339,7 @@ docs/
 ## Step 7: Build Order for This Phase
 
 1. Analyze the requirements.
-2. Scaffold the Next.js + TypeScript + Tailwind project inside `calculator-custom`.
+2. Scaffold the Next.js + TypeScript + Tailwind project inside `press-calculator`.
 3. Install Lucide, Zustand, Vitest and the PWA tooling.
 4. Set up the **theme system**: color tokens, fonts, background glow, and the base Tailwind config.
 5. Build the themed **UI primitives**: Panel, StatBar, Badge, HudButton, NumberInput.

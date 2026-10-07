@@ -16,7 +16,7 @@
 ## পুরো ফোল্ডার এক নজরে
 
 ```
-D:\calculator-custom\
+D:\press-calculator\
 ├── calculator.md        ← সব নিয়ম আর থিম (মূল প্রম্পট)
 ├── prompt.md            ← ধাপে ধাপে বিল্ড প্ল্যান
 ├── PROGRESS.md          ← কী কী কাজ শেষ হয়েছে
