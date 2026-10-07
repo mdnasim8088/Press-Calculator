@@ -45,8 +45,8 @@ export const FEATURED_TOOL: Tool = {
 
 export const TOOLS: Tool[] = [
   FEATURED_TOOL,
-  { href: "/sticker", title: "Sticker", help: "tool.sticker", icon: Scissors, status: "ready", group: "calculate" },
   { href: "/quantity", title: "Quantity", help: "tool.quantity", icon: Layers, status: "ready", group: "calculate" },
+  { href: "/sticker", title: "Sticker Sheet", help: "tool.sticker", icon: Scissors, status: "ready", group: "calculate" },
   { href: "/banner", title: "Banner", help: "tool.banner", icon: Flag, status: "ready", group: "calculate" },
   { href: "/packing", title: "Sticker Packing", help: "tool.packing", icon: LayoutGrid, status: "soon", group: "calculate" },
   { href: "/best-layout", title: "Best Layout", help: "tool.bestLayout", icon: RotateCw, status: "soon", group: "calculate" },
@@ -81,28 +81,28 @@ export interface NavItem {
 export const RAIL_ITEMS: NavItem[] = [
   { href: "/", label: "Home", icon: House },
   { href: "/calculator", label: "Calculator", icon: Calculator },
-  { href: "/sticker", label: "Sticker", icon: Scissors },
   { href: "/quantity", label: "Quantity", icon: Layers },
+  { href: "/sticker", label: "Sticker Sheet", icon: Scissors },
   { href: "/banner", label: "Banner", icon: Flag },
   { href: "/presets", label: "Presets", icon: Bookmark },
   { href: "/history", label: "History", icon: History },
   { href: "/projects", label: "Projects", icon: FolderOpen },
 ];
 
-/** Mobile bottom bar (max 5). */
+/** Mobile bottom bar (max 5). Settings is on the home page and the desktop rail. */
 export const BOTTOM_ITEMS: NavItem[] = [
   { href: "/", label: "Home", icon: House },
   { href: "/calculator", label: "Calc", icon: Calculator },
+  { href: "/quantity", label: "Quantity", icon: Layers },
   { href: "/sticker", label: "Sticker", icon: Scissors },
   { href: "/banner", label: "Banner", icon: Flag },
-  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 /** Category tabs above calculator pages. */
 export const CATEGORY_TABS: NavItem[] = [
   { href: "/calculator", label: "Calc", icon: Calculator },
-  { href: "/sticker", label: "Sticker", icon: Scissors },
   { href: "/quantity", label: "Quantity", icon: Layers },
+  { href: "/sticker", label: "Sticker Sheet", icon: Scissors },
   { href: "/banner", label: "Banner", icon: Flag },
   { href: "/packing", label: "Packing", icon: LayoutGrid },
   { href: "/cost", label: "Cost", icon: Wallet },

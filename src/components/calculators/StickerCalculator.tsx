@@ -1,9 +1,21 @@
 "use client";
 
-import { Lock, RotateCw, TriangleAlert } from "lucide-react";
-import { calculateRoll, calculateSheet, fromMeters, pricePerSqm, type PriceMode, type SheetOption, type Unit } from "@/core";
+import { Lock, TriangleAlert } from "lucide-react";
+import {
+  calculateSheetCapacity,
+  convert,
+  pricePerSqm,
+  roundTo,
+  toMeters,
+  UNITS,
+  type PriceMode,
+  type SheetCapacityOption,
+  type SheetCapacityResult,
+  type Unit,
+} from "@/core";
 import { anyEmpty, formatMoney, formatNumber, parseInput, parseOptional } from "@/lib/format";
 import { tryCalc } from "@/lib/try-calc";
+import { unitLabel } from "@/lib/unit-labels";
 import { useStoresHydrated } from "@/stores/hydration";
 import { useFormState } from "@/stores/session";
 import { useSettings } from "@/stores/settings";
@@ -16,17 +28,14 @@ import { NumberInput } from "@/components/ui/NumberInput";
 import { Panel } from "@/components/ui/Panel";
 import { PriceField, PriceModeToggle } from "@/components/ui/PriceField";
 import { Stat } from "@/components/ui/Stat";
-import { StatBar } from "@/components/ui/StatBar";
 import { UnitSelect } from "@/components/ui/UnitSelect";
-import { SheetPreview } from "./SheetPreview";
+import { RollPreview, type RollPiece } from "./RollPreview";
+import { LayoutBadges, ROLL_WIDTH_METERS, STICKER_UNITS } from "./shared";
 
-export const STICKER_UNITS: readonly Unit[] = ["mm", "cm", "inch"];
-
-/** The cutter-sticker roll is always 1 m wide. */
-const ROLL_WIDTH_METERS = 1;
-
-interface SheetFormState {
-  quantity: string;
+interface StickerSheetFormState {
+  /** Sheet length; the width is always 1 m. */
+  length: string;
+  lengthUnit: Unit;
   width: string;
   height: string;
   gap: string;
@@ -35,18 +44,23 @@ interface SheetFormState {
   priceMode: PriceMode;
 }
 
+/**
+ * Sticker Sheet: how many complete stickers fit on a 1 m × N m sheet (e.g. 1 m × 1 m).
+ * Uses the sheet method: pieces on one 1 m × 1 m sheet × number of sheets, plus whole rows in any extra length.
+ */
 export function StickerCalculator() {
   const hydrated = useStoresHydrated();
   if (!hydrated) return <div className="glass h-96 animate-pulse rounded-xl" aria-busy />;
-  return <SheetForm />;
+  return <StickerSheetForm />;
 }
 
-function SheetForm() {
+function StickerSheetForm() {
   const settings = useSettings();
   const currency = settings.currency;
   // A fresh visit starts empty, like a calculator showing 0; gap, unit and price come from Settings.
-  const [form, update] = useFormState<SheetFormState>("sticker", () => ({
-    quantity: "",
+  const [form, update] = useFormState<StickerSheetFormState>("sticker-sheet", () => ({
+    length: "",
+    lengthUnit: "m",
     width: "",
     height: "",
     gap: String(settings.defaultGap),
@@ -54,20 +68,30 @@ function SheetForm() {
     price: String(settings.defaultPricePerSqm),
     priceMode: "sqm",
   }));
-  const { quantity, width, height, gap, unit, price, priceMode } = form;
+  const { length, lengthUnit, width, height, gap, unit, price, priceMode } = form;
 
-  const input = {
-    quantity: parseInput(quantity),
-    itemWidth: parseInput(width),
-    itemHeight: parseInput(height),
-    gap: parseOptional(gap),
-    unit,
-    pricePerSqm: pricePerSqm(Math.max(0, parseOptional(price)), priceMode, ROLL_WIDTH_METERS),
+  // Switching the length unit converts the typed value, so the length stays the same (1 m → 100 cm).
+  const changeLengthUnit = (next: string) => {
+    const nextUnit = next as Unit;
+    const current = parseInput(length);
+    update({
+      lengthUnit: nextUnit,
+      ...(Number.isFinite(current) && { length: String(roundTo(convert(current, lengthUnit, nextUnit), 4)) }),
+    });
   };
 
-  const empty = anyEmpty(quantity, width, height);
-  const sheet = tryCalc(() => calculateSheet(input));
-  const roll = tryCalc(() => calculateRoll({ ...input, rollWidth: fromMeters(ROLL_WIDTH_METERS, unit) }));
+  const gapValue = parseOptional(gap);
+  const empty = anyEmpty(length, width, height);
+  const result = tryCalc(() =>
+    calculateSheetCapacity({
+      lengthMeters: toMeters(parseInput(length), lengthUnit),
+      itemWidth: parseInput(width),
+      itemHeight: parseInput(height),
+      gap: gapValue,
+      unit,
+      pricePerSqm: pricePerSqm(Math.max(0, parseOptional(price)), priceMode, ROLL_WIDTH_METERS),
+    }),
+  );
 
   return (
     <div className="grid gap-5 lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)] lg:items-start">
@@ -78,9 +102,17 @@ function SheetForm() {
         action={<PriceModeToggle mode={priceMode} onChange={(m) => update({ priceMode: m })} />}
       >
         <div className="space-y-4">
-          <NumberInput label="Quantity" help="field.quantity" value={quantity} onChange={(v) => update({ quantity: v })} suffix="pcs" integer />
+          <NumberInput
+            label="Sheet length"
+            help="field.sheetLength"
+            value={length}
+            onChange={(v) => update({ length: v })}
+            suffix={lengthUnit}
+            suffixOptions={UNITS.map((u) => ({ value: u, label: unitLabel(u) }))}
+            onSuffixChange={changeLengthUnit}
+          />
           <div>
-            <FieldLabel label="Unit" help="field.unit" />
+            <FieldLabel label="Sticker unit" help="field.unit" />
             <UnitSelect value={unit} onChange={(u) => update({ unit: u })} units={STICKER_UNITS} />
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -92,8 +124,8 @@ function SheetForm() {
           <div className="flex items-start gap-2 rounded-lg bg-surface-2/60 p-3">
             <Lock size={14} className="mt-0.5 shrink-0 text-accent" aria-hidden />
             <div>
-              <p className="text-xs text-text">Cutter sticker width is always 1 m. Sheets are 1 m × 1 m, joined lengthwise.</p>
-              <Help k="sheet.lockNote" />
+              <p className="text-xs text-text">Width is always 1 m. Pieces on one 1 m × 1 m sheet × number of sheets.</p>
+              <Help k="roll.method" />
             </div>
           </div>
         </div>
@@ -101,108 +133,107 @@ function SheetForm() {
 
       <div className="min-w-0 space-y-5">
         {empty ? (
-          <EmptyResult first="Artboard" second="Price" help="empty.result" />
-        ) : !sheet.ok ? (
+          <EmptyResult first="Total pieces" second="Price" help="empty.sheetLength" />
+        ) : !result.ok ? (
           <Panel index={2} title="Result">
             <p role="alert" className="flex items-center gap-2 text-sm text-danger">
-              <TriangleAlert size={16} /> {sheet.error}
+              <TriangleAlert size={16} /> {result.error}
             </p>
           </Panel>
         ) : (
-          <>
-            <SheetResult option={sheet.value.best} unit={unit} currency={currency} quantity={input.quantity} />
-            <Panel index={3} title="Last sheet preview">
-              <SheetPreview option={sheet.value.best} unit={unit} gap={input.gap} />
-            </Panel>
-            <Panel index={4} title="Compare">
-              <Help k="compare.title" className="-mt-2 mb-3" />
-              <div className="grid gap-3 sm:grid-cols-2">
-                <OrientationCard label="Normal" option={sheet.value.normal} best={sheet.value.best} unit={unit} />
-                <OrientationCard label="Rotated" option={sheet.value.rotated} best={sheet.value.best} unit={unit} />
-              </div>
-              {roll.ok && (
-                <div className="mt-3 rounded-lg border border-border p-4">
-                  <div className="mb-2 flex items-center justify-between gap-2">
-                    <span className="font-ui text-sm font-bold tracking-widest text-text uppercase">Roll mode (exact)</span>
-                    <Badge tone="muted">Compare</Badge>
-                  </div>
-                  <p className="font-mono text-sm text-text">
-                    1 m × {formatNumber(roll.value.best.lengthMeters, 3)} m = {formatMoney(roll.value.best.cost, currency)}
-                  </p>
-                  <Help k="compare.roll" className="mt-1" />
-                </div>
-              )}
-            </Panel>
-          </>
+          <CapacityResult result={result.value} unit={unit} gap={gapValue} currency={currency} />
         )}
       </div>
     </div>
   );
 }
 
-export function SheetResult({ option, unit, currency, quantity }: { option: SheetOption; unit: Unit; currency: string; quantity: number }) {
-  const usedPercent = (option.lastSheetUsed / option.sheetSize) * 100;
-  const used = `${formatNumber(option.lastSheetUsed)} ${unit}`;
-  const left = `${formatNumber(option.lastSheetRemaining)} ${unit}`;
+function CapacityResult({ result, unit, gap, currency }: { result: SheetCapacityResult; unit: Unit; gap: number; currency: string }) {
+  const { best } = result;
+  const sheets = formatNumber(best.fullSheets);
+  const pieces: RollPiece[] = [
+    ...Array.from({ length: best.fullSheets }, (): RollPiece => ({ kind: "full", length: best.sheetSize, rows: best.rowsPerSheet })),
+    ...(best.partialLength > 0 ? [{ kind: "extra" as const, length: best.partialLength, rows: best.partialRows }] : []),
+  ];
   return (
-    <Panel
-      index={2}
-      title="Result"
-      action={
-        <span className="flex gap-1.5">
-          <Badge tone="success">Best layout</Badge>
-          {option.rotated && (
-            <Badge>
-              <RotateCw size={12} /> Rotated
-            </Badge>
-          )}
-        </span>
-      }
-    >
-      <div className="grid gap-3 sm:grid-cols-2">
-        <Stat
-          highlight
-          label="Artboard"
-          help="res.artboard"
-          value={`1 m × ${formatNumber(option.artboardLengthMeters)} m`}
-          hint={`${formatNumber(option.artboardAreaSqm)} m²`}
-        />
-        <Stat highlight label="Price" help="res.price" value={formatMoney(option.price, currency)} hint="Full sheets charged" />
-      </div>
-
-      <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
-        <Stat label="Sheets" help="res.sheets" value={option.sheets} hint={`${option.fullSheets} full + ${option.sheets - option.fullSheets} last`} />
-        <Stat label="Per sheet" help="res.perSheet" value={option.perSheet} hint={`${option.perRow} × ${option.rowsPerSheet} rows`} />
-        <Stat
-          label="Total pieces"
-          help="res.produced"
-          value={formatNumber(option.produced, 0)}
-          hint={option.extra > 0 ? `+${option.extra} extra (row completed)` : `exactly ${formatNumber(quantity, 0)}`}
-        />
-        <Stat label="Used length" help="res.usedLength" value={`${formatNumber(option.usedLengthMeters, 3)} m`} hint={`${formatNumber(option.usedAreaSqm, 3)} m²`} />
-        <Stat label="Used price" help="res.usedPrice" value={formatMoney(option.usedPrice, currency)} hint="Used length only" />
-        <Stat label="Last sheet" help="res.lastSheetCount" value={option.lastSheetCount} hint={`${option.lastSheetRows} full rows`} />
-      </div>
-
-      <div className="mt-4 rounded-lg border border-warning/40 bg-warning/5 p-4">
-        <p className="font-ui text-base font-bold text-text">
-          Last sheet: <span className="text-accent">{used}</span> used · <span className="text-warning">{left}</span> left
-        </p>
-        <Help k="res.lastSheet" vars={{ used, left }} className="mt-0.5 text-sm" />
-        <div className="mt-3">
-          <StatBar
-            label="Last sheet used"
-            percent={usedPercent}
-            valueLabel={`${formatNumber(usedPercent, 1)}%`}
-            tone={usedPercent < 50 ? "warning" : "accent"}
+    <>
+      <Panel index={2} title="Result" action={<LayoutBadges rotated={best.rotated} />}>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Stat
+            highlight
+            label="Total pieces"
+            help="res.totalFit"
+            value={`${formatNumber(best.total, 0)} pcs`}
+            hint={
+              <>
+                {best.perSheet} per sheet × {sheets} {best.fullSheets === 1 ? "sheet" : "sheets"}
+                {best.partialCount > 0 && ` + ${best.partialCount}`}
+                <Help k="res.formula" vars={{ perSheet: String(best.perSheet), sheets }} />
+              </>
+            }
+          />
+          <Stat
+            highlight
+            label="Price"
+            help="res.sheetPrice"
+            value={formatMoney(result.price, currency)}
+            hint={`1 m × ${formatNumber(result.lengthMeters, 3)} m · ${formatNumber(result.areaSqm, 3)} m²`}
           />
         </div>
-      </div>
-    </Panel>
+
+        <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+          <Stat label="Per sheet" help="res.perSheet" value={best.perSheet} hint={`${best.perRow} × ${best.rowsPerSheet} rows · 1 m × 1 m`} />
+          <Stat label="Full sheets" help="res.fullSheets" value={sheets} />
+          {best.partialLength > 0 && (
+            <Stat
+              label="Extra length"
+              help="res.partial"
+              value={`${best.partialCount} pcs`}
+              hint={`${formatNumber(best.partialLength)} ${unit} · ${best.partialRows} rows`}
+            />
+          )}
+          <Stat label="Per piece" help="res.pricePerPiece" value={`${formatNumber(result.pricePerPiece, 3)} ${currency}`} />
+          <Stat
+            label="Left per sheet"
+            help="res.leftPerSheet"
+            value={`${formatNumber(best.remainingPerSheet)} ${unit}`}
+            hint={`width left ${formatNumber(best.remainingWidth)} ${unit}`}
+          />
+        </div>
+      </Panel>
+
+      <Panel index={3} title="Sheet preview">
+        <RollPreview
+          sheetSize={best.sheetSize}
+          perRow={best.perRow}
+          itemWidth={best.itemWidth}
+          itemHeight={best.itemHeight}
+          gap={gap}
+          unit={unit}
+          pieces={pieces}
+        />
+      </Panel>
+
+      <Panel index={4} title="Compare">
+        <Help k="compare.title" className="-mt-2 mb-3" />
+        <div className="grid gap-3 sm:grid-cols-2">
+          <CapacityCard label="Normal" option={result.normal} best={best} />
+          <CapacityCard label="Rotated" option={result.rotated} best={best} />
+        </div>
+        <div className="mt-3 rounded-lg border border-border p-4">
+          <div className="mb-2 flex items-center justify-between gap-2">
+            <span className="font-ui text-sm font-bold tracking-widest text-text uppercase">Without sheet breaks</span>
+            <Badge tone="muted">Compare</Badge>
+          </div>
+          <p className="font-mono text-sm text-text">{formatNumber(result.continuous.total, 0)} pcs</p>
+          <Help k="compare.continuous" className="mt-1" />
+        </div>
+      </Panel>
+    </>
   );
 }
 
-export function OrientationCard({ label, option, best, unit }: { label: string; option: SheetOption | null; best: SheetOption; unit: Unit }) {
+function CapacityCard({ label, option, best }: { label: string; option: SheetCapacityOption | null; best: SheetCapacityOption }) {
   if (!option) {
     return (
       <div className="rounded-lg border border-border p-4 text-sm">
@@ -224,12 +255,8 @@ export function OrientationCard({ label, option, best, unit }: { label: string; 
       <dl className="grid grid-cols-2 gap-y-1 text-sm">
         <dt className="text-muted">Per sheet</dt>
         <dd className="text-right font-mono tabular-nums">{option.perSheet}</dd>
-        <dt className="text-muted">Sheets</dt>
-        <dd className="text-right font-mono tabular-nums">{option.sheets}</dd>
-        <dt className="text-muted">Last sheet used</dt>
-        <dd className="text-right font-mono tabular-nums">{formatNumber(option.lastSheetUsed)} {unit}</dd>
-        <dt className="text-muted">Left</dt>
-        <dd className="text-right font-mono tabular-nums">{formatNumber(option.lastSheetRemaining)} {unit}</dd>
+        <dt className="text-muted">Total</dt>
+        <dd className="text-right font-mono tabular-nums">{formatNumber(option.total, 0)}</dd>
       </dl>
     </div>
   );

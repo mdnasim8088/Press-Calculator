@@ -1,19 +1,22 @@
-# 08 · Quantity → Required Material  ✅ built (Sheet page)
+# 08 · Quantity Calculator (quantity → required material)  ✅ built
 
-Route: `/sticker` (old `/sheet` redirects here; page title "Sticker Calculator") · UI: `StickerCalculator.tsx`, `SheetPreview.tsx` · Engine: `calculateSheet()` (`sheet.ts`), `calculateRoll()` (`roll.ts`)
+Route: `/quantity` (old `/roll` redirects here) · UI: `QuantityCalculator.tsx`, `RollPreview.tsx` · Engine: `calculateSheet()` (`src/core/sheet.ts`)
 
-## Two modes, shown side by side
-| Mode | Meaning | Example (5×7 cm, 500 pcs) |
-|---|---|---|
-| **Sheet** (main) | 1 m × 1 m sheets joined lengthwise, priced per full sheet | 1 m × 3 m = 150 SAR |
-| **Roll** (compare) | exact length, no sheet rounding | 1 m × 2.095 m = 104.75 SAR |
+First calculator in the tabs and menus (after the basic Calculator).
 
-## Sheet page panels
-1. **Input**: quantity, unit (mm/cm/inch), sticker W × H, gap, price per m². Width-locked note: always 1 m.
-2. **Result**: artboard `1 m × N m`, full-sheet price, sheets (full + last), per sheet (perRow × rows), total produced (+extra from the completed row), actual used length, used-length price, stickers on the last sheet.
-   - Highlight box: **"শেষ শিট: 27 cm লেগেছে, 73 cm বাকি আছে"** + usage bar.
-3. **Last sheet preview**: SVG of the final sheet, stickers in cyan, the leftover hatched in amber with "73 cm LEFT". Above 1,500 stickers each row is drawn as a single strip for performance.
-4. **Compare**: normal vs rotated cards (best marked), plus the roll-mode result.
+## What it does
+Enter how many pieces you need; it returns how many 1 m × 1 m sheets the job takes, joined lengthwise into a 1 m × N m artboard. The last row is always completed.
+
+| Input | Result |
+|---|---|
+| 500 pcs, 5 × 7 cm, gap 0.5 | 234 per sheet · **3 sheets → 1 m × 3 m** · last sheet 14.5 cm used, **85.5 cm empty** · used after completing the row **2.145 m** · 150 SAR (used 107.25 SAR) |
+| 3000 pcs, 5 × 5 cm, gap 0.5 | 324 per sheet · 10 sheets → 1 m × 10 m · last sheet 27 cm used, **73 cm left** · 500 SAR (used 9.27 m = 463.50 SAR) |
+
+## Panels
+1. **Input**: quantity, unit (mm/cm/inch), sticker W × H, gap (quick buttons), price per m² or per meter (optional; empty = 0).
+2. **Result**: artboard `1 m × N m`, full-sheet price, sheets (full + last), per sheet, total produced (+extra from the completed row), used length and used-length price, stickers on the last sheet, and the highlight box "Last sheet: 27 cm used · 73 cm left" with a usage bar.
+3. **Roll preview**: every sheet outlined (Sheet 1, Sheet 2, … last), the empty part of the last sheet hatched in orange, caption with sheets, empty length and metres used. Long jobs show the first 2 and last 3 sheets with "… +N".
+4. **Compare**: normal vs rotated cards (best marked).
 
 ## Open decision
-Which price is the main one: full sheets (current) or used length? Both are shown today.
+Which price is the main one: full sheets (current) or used length? Both are shown.

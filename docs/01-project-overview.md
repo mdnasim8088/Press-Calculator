@@ -16,8 +16,8 @@ A print-shop owner/operator pricing jobs at the counter or on the phone. Bangla 
 | Calculation engine (`src/core`) | ✅ units, area, packing, rotation, roll, sheet, pricing |
 | Engine tests | ✅ 17 passing |
 | Theme + app shell | ✅ |
-| Sticker calculator (`/sticker`, was `/sheet`) | ✅ working |
 | Quantity calculator (`/quantity`, was `/roll`) | ✅ working |
+| Sticker Sheet calculator (`/sticker`, was `/sheet`) | ✅ working |
 | Banner calculator (`/banner`, was `/area`) | ✅ working |
 | Settings | ✅ working |
 | PWA (manifest, icons, service worker) | ✅ |

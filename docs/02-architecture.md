@@ -29,7 +29,7 @@ src/
 ├── components/
 │   ├── ui/        Panel, Stat, StatBar, Badge, HudButton, NumberInput, UnitSelect
 │   ├── layout/    IconRail, BottomNav, CategoryTabs, PageHeader, Particles, ClientBoot
-│   └── calculators/ BasicCalculator, StickerCalculator, SheetPreview, QuantityCalculator, RollPreview, BannerCalculator, SettingsForm
+│   └── calculators/ BasicCalculator, QuantityCalculator, StickerCalculator, RollPreview, BannerCalculator, SettingsForm, shared
 ├── config/        navigation.ts (single source for menus and tool list)
 ├── stores/        settings.ts (Zustand + persist)
 └── lib/           format.ts, try-calc.ts
