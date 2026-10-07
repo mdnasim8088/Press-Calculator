@@ -1,31 +1,27 @@
 # 09 · Roll Calculator  ✅ built
 
-Route: `/roll` · UI: `RollCalculator.tsx`, `RollPreview.tsx` · Engine: `calculateSheetCapacity()` (`src/core/capacity.ts`), `calculateRoll()` (`src/core/roll.ts`) · Tests: `tests/capacity.test.ts` (6)
+Route: `/roll` · UI: `RollCalculator.tsx`, `RollPreview.tsx` · Engine: `calculateSheet()` (`src/core/sheet.ts`)
 
-Width is always 1 m (cutter sticker rule). The page has two options.
+Width is always 1 m (cutter sticker rule). The page has **one option: Roll for quantity**.
 
-## Option 1: Pieces in roll (default), using the sheet method
-*"How many 10 × 8 cm stickers fit in a 1 m × 5 m roll?"*
+## Roll for quantity (sheet method)
+*"How much roll do I need for 500 pcs of 5 × 7 cm?"*
 
-1. Count complete stickers on one 1 m × 1 m sheet (packing rule, both orientations).
-2. Multiply by the number of full sheets: `floor(length m)`.
-3. If the length has an extra part (e.g. 5.5 m → 50 cm), add the whole rows that fit in it.
-4. The orientation with more pieces wins.
+Same engine as the Sheet page (doc 08): 1 m × 1 m sheets, the last row completed, priced per full sheet with the used-length price shown too.
 
 | Input | Result |
 |---|---|
-| 1 m × 5 m, 10 × 8 cm, gap 0.5 | 9 × 11 = **99 per sheet × 5 = 495 pcs** · 7 cm left per sheet · 250 SAR · 0.505 SAR/pc |
-| same, gap 0 | 120 per sheet × 5 = **600 pcs** |
-| 1 m × 5.5 m | 495 + 5 rows × 9 = **540 pcs** |
-| 1 m × 0.5 m | 45 pcs (no full sheet) |
+| 500 pcs, 5 × 7 cm, gap 0.5 | 234 per sheet · **3 sheets → 1 m × 3 m** · last sheet 14.5 cm used, **85.5 cm empty** · used after completing the row **2.145 m** · 150 SAR (used 107.25 SAR) |
 
-For comparison the page also shows the count for one continuous grid without sheet breaks (522 for the first example).
+The Roll page adds a **roll preview**: the roll drawn sideways with every sheet outlined (Sheet 1, Sheet 2, … last), the empty part of the last sheet hatched in orange, and a caption with sheets, empty length and metres used. Long jobs show the first 2 and last 3 sheets with a "… +N" marker.
 
-Outputs: total pieces, roll size and m², per sheet (perRow × rows), full sheets, extra-length pieces, roll price, price per piece, leftover length/width per sheet. The preview draws the roll sideways with each 1 m sheet outlined (first 6 sheets for long rolls) and the extra length dashed in amber.
+Inputs: quantity, unit, sticker width/height, gap (quick buttons), price per m² or per meter (optional; empty = 0).
 
-## Option 2: Roll for quantity
-*"How much roll do I need for 500 pcs?"*: exact length, no sheet rounding (`calculateRoll`).
-500 × 10 × 8 cm → 9 per row, 56 rows, **1 m × 4.755 m = 237.75 SAR**. For whole-sheet pricing use the Sheet page.
+## Removed from the screen: Pieces in roll
+The "how many pieces fit in a 1 m × N m roll" option was taken off the page at the user's request. Its engine is kept and tested, so it can return as its own page:
+
+- `calculateSheetCapacity()` in `src/core/capacity.ts`, tests in `tests/capacity.test.ts`
+- 1 m × 5 m, 10 × 8 cm, gap 0.5 → 99 per sheet × 5 = **495 pcs**; 5.5 m → 540 pcs
 
 ## Next
 - Roll on hand: enter the roll's remaining length and show what is left after a job.

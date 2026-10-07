@@ -19,7 +19,7 @@ Next.js-এ **প্রতিটা ফোল্ডার = একটা পে�
 | `area/page.tsx` | `/area` | **Area & Price ক্যালকুলেটর** | ✅ কাজ করে |
 | `settings/page.tsx` | `/settings` | সেটিংস: ভাষা, কারেন্সি, ডিফল্ট একক, দাম, gap | ✅ কাজ করে |
 | `packing/` | `/packing` | স্টিকার প্যাকিং | ⬜ পরে |
-| `roll/page.tsx` | `/roll` | **Roll ক্যালকুলেটর**, দুইটা অপশন: ① **Pieces in roll**: 1 m × কত মিটারে কয় পিস ধরবে (শিট পদ্ধতিতে) ② **Roll for quantity**: এত পিসের জন্য কত মিটার লাগবে | ✅ কাজ করে |
+| `roll/page.tsx` | `/roll` | **Roll ক্যালকুলেটর**, শুধু **Roll for quantity**: এত পিসের জন্য কয়টা শিট আর কত মিটার লাগবে, সব শিটের ছবি সহ। ("Pieces in roll"-এর হিসাব `core/capacity.ts`-এ রাখা আছে, স্ক্রিনে নেই।) | ✅ কাজ করে |
 | `best-layout/` | `/best-layout` | বেস্ট লেআউট | ⬜ পরে |
 | `waste/` | `/waste` | অপচয় | ⬜ পরে |
 | `cost/`, `selling-price/`, `profit/` | | খরচ, বিক্রয় মূল্য, লাভ | ⬜ পরে |
@@ -34,7 +34,7 @@ Next.js-এ **প্রতিটা ফোল্ডার = একটা পে�
 
 | ফাইল | কী করে |
 |---|---|
-| `RollCalculator.tsx` | Roll পেজের দুইটা অপশন, ফর্ম আর ফলাফল। হিসাব করে `core/capacity.ts` আর `core/roll.ts`। |
+| `RollCalculator.tsx` | Roll পেজ: পিস থেকে শিট আর মিটার, ছবি আর তুলনা সহ। হিসাব করে `core/sheet.ts`। |
 | `RollPreview.tsx` | রোলের ছবি: রোলটা পাশে শোয়ানো, প্রতিটা শিট আলাদা দাগে (Sheet 1, Sheet 2 … last)। শেষ শিটের খালি অংশ হলুদ দাগে, সাথে "85.5 cm empty" লেখা। অনেক শিট হলে প্রথম ২টা, "… +N", তারপর শেষ ৩টা দেখায়। |
 | `BasicCalculator.tsx` | সাধারণ ক্যালকুলেটর: বাটন, ডিসপ্লে, কীবোর্ড সাপোর্ট, Tape। হিসাব করে `core/expression.ts`। |
 | `SheetCalculator.tsx` | শিট ক্যালকুলেটরের পুরো ফর্ম আর ফলাফল। চারটা প্যানেল: `01 Input` → `02 Result` → `03 Last sheet preview` → `04 Compare` (সোজা বনাম ঘোরানো, আর রোল মোড)। |
