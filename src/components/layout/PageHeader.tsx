@@ -22,7 +22,7 @@ export function PageHeader({ title, help, tabs, badge }: PageHeaderProps) {
           </h1>
           {badge}
         </div>
-        <span aria-hidden className="mt-2 block h-0.5 w-24 bg-accent shadow-[0_0_12px_var(--accent)]" />
+        <span aria-hidden className="mt-2 block h-0.5 w-24 bg-accent-gradient" />
         {help && <Help k={help} className="mt-3 max-w-2xl text-sm" />}
       </div>
       {tabs && <CategoryTabs />}

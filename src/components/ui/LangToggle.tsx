@@ -24,7 +24,7 @@ export function LangToggle({ className = "" }: { className?: string }) {
               lang={l.value}
               onClick={() => setLang(l.value)}
               className={`min-h-9 rounded-md px-3 text-sm font-semibold transition-colors ${
-                active ? "bg-accent text-bg" : "text-muted hover:text-text"
+                active ? "bg-accent-gradient text-on-accent" : "text-muted hover:text-text"
               }`}
             >
               {l.label}

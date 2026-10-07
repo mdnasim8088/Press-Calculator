@@ -34,7 +34,7 @@ export function GapPicker({ value, onChange, unit }: GapPickerProps) {
               aria-pressed={active}
               onClick={() => onChange(String(g))}
               className={`min-h-9 rounded-md px-3 font-mono text-sm transition-colors ${
-                active ? "bg-accent text-bg" : "bg-surface-2 text-muted hover:text-text"
+                active ? "bg-accent-gradient text-on-accent" : "bg-surface-2 text-muted hover:text-text"
               }`}
             >
               {g}

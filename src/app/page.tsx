@@ -62,9 +62,9 @@ export default function HomePage() {
           <LangToggle className="ml-auto" />
         </div>
         <h1 className="relative mt-4 font-display text-3xl leading-tight font-extrabold tracking-wider text-text uppercase sm:text-5xl">
-          Press <span className="text-accent text-glow">Calculator</span>
+          Press <span className="text-accent-gradient">Calculator</span>
         </h1>
-        <span aria-hidden className="relative mt-3 block h-0.5 w-28 bg-accent shadow-[0_0_12px_var(--accent)]" />
+        <span aria-hidden className="relative mt-3 block h-0.5 w-28 bg-accent-gradient" />
         <p className="relative mt-3 max-w-xl text-sm text-text">
           Sheets, meters, leftover and price for stickers, cutter stickers, banners and vinyl.
         </p>

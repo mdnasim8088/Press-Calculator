@@ -1,6 +1,9 @@
 import Image from "next/image";
 
-/** TA circle mark (Tusar Ahammad), in the theme accent colour. Built by scripts/build-brand.mjs. */
+/**
+ * TA circle mark (Tusar Ahammad), in the theme green gradient. Built by scripts/build-brand.mjs.
+ * Served as-is (unoptimized) so a rebuilt logo shows immediately instead of a cached copy.
+ */
 export function Logo({ size = 40 }: { size?: number }) {
   return (
     <Image
@@ -9,6 +12,7 @@ export function Logo({ size = 40 }: { size?: number }) {
       width={size}
       height={size}
       priority
+      unoptimized
       className="drop-shadow-[0_0_8px_var(--accent-glow)]"
     />
   );
@@ -23,6 +27,7 @@ export function Wordmark({ height = 40 }: { height?: number }) {
       width={Math.round((height * 1030) / 200)}
       height={height}
       priority
+      unoptimized
       className="h-auto max-w-full drop-shadow-[0_0_10px_var(--accent-glow)]"
     />
   );

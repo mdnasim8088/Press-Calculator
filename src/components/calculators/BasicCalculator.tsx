@@ -46,7 +46,7 @@ const KEY_STYLE: Record<KeyKind, string> = {
   num: "bg-surface-2 text-text hover:bg-accent-soft",
   op: "bg-accent/15 text-accent hover:bg-accent/25",
   fn: "bg-surface-2/60 text-muted hover:text-text",
-  eq: "bg-accent text-bg hover:bg-accent-strong shadow-[0_0_18px_var(--accent-glow)]",
+  eq: "bg-accent-gradient text-on-accent hover:brightness-110 shadow-[0_4px_14px_var(--accent-glow)]",
 };
 
 /** Keyboard keys mapped to calculator input. */
@@ -151,7 +151,7 @@ function CalculatorBody() {
   return (
     <div className="mx-auto grid max-w-4xl gap-5 lg:grid-cols-[minmax(0,420px)_minmax(0,1fr)] lg:items-start">
       <Panel index={1} title="Calculator">
-        <div className="mb-4 rounded-xl border border-border bg-bg/60 p-4" aria-live="polite">
+        <div className="mb-4 rounded-xl border border-border bg-surface-2 p-4" aria-live="polite">
           <div className="flex items-start gap-2">
             <div className="no-scrollbar min-h-7 flex-1 overflow-x-auto text-right font-mono text-lg whitespace-nowrap text-muted">
               {expression || "0"}

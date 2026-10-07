@@ -5,9 +5,17 @@
 import { mkdir } from "node:fs/promises";
 import sharp from "sharp";
 
-const ACCENT = [0x38, 0xc6, 0xe0]; // --accent
-const TEXT = [0xe6, 0xf5, 0xf8]; // --text
-const BG = "#071216"; // --bg
+// Fiverr-style green gradient for the TA mark (--accent-bright → --accent-deep), dark name text, white icons.
+const GRADIENT_FROM = [0x1d, 0xbf, 0x73];
+const GRADIENT_TO = [0x0a, 0x7a, 0x43];
+const TEXT = [0x22, 0x23, 0x25]; // --text
+const BG = "#ffffff"; // --bg
+
+/** Diagonal gradient colour at (x, y): top-left bright green → bottom-right deep green. */
+const gradientAt = (x, y, width, height) => {
+  const t = Math.min(1, Math.max(0, (x / width + y / height) / 2));
+  return GRADIENT_FROM.map((from, i) => Math.round(from + (GRADIENT_TO[i] - from) * t));
+};
 
 /** Reads a black-on-white image as ink coverage per pixel (0 = paper, 255 = full ink). */
 async function readInk(file) {
@@ -21,13 +29,13 @@ async function readInk(file) {
   return { ink, width: info.width, height: info.height };
 }
 
-/** Colours ink pixels; `colorAt(x)` picks the colour by column. Returns a transparent PNG pipeline. */
+/** Colours ink pixels; `colorAt(x, y, width, height)` picks each pixel's colour. Returns a transparent PNG pipeline. */
 function colorize({ ink, width, height }, colorAt) {
   const out = Buffer.alloc(width * height * 4);
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       const i = y * width + x;
-      const [r, g, b] = colorAt(x);
+      const [r, g, b] = colorAt(x, y, width, height);
       out[i * 4] = r;
       out[i * 4 + 1] = g;
       out[i * 4 + 2] = b;
@@ -60,15 +68,18 @@ async function appIcon(markPng, size, padding, file) {
 await mkdir("public/brand", { recursive: true });
 await mkdir("public/icons", { recursive: true });
 
-// TA circle mark, all in the accent colour.
+// TA circle mark, in the green gradient.
 const mark = await readInk("brand/source/logo-mark.webp");
-const markPng = await colorize(mark, () => ACCENT).png().toBuffer();
+const markPng = await colorize(mark, gradientAt).png().toBuffer();
 await sharp(markPng).resize(512, 512, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toFile("public/brand/logo-mark.png");
 
-// TA + TUSAR AHAMMAD: the mark in accent, the name in the light text colour.
+// TA + TUSAR AHAMMAD: the mark in the green gradient, the name in the dark text colour.
 const word = await readInk("brand/source/logo-wordmark.webp");
 const gap = findGap(word, Math.round(word.width * 0.15));
-await colorize(word, (x) => (x < gap ? ACCENT : TEXT)).resize({ height: 200 }).png().toFile("public/brand/logo-wordmark.png");
+await colorize(word, (x, y, _w, h) => (x < gap ? gradientAt(x, y, gap, h) : TEXT))
+  .resize({ height: 200 })
+  .png()
+  .toFile("public/brand/logo-wordmark.png");
 
 // App icons (PWA, favicon, iPhone).
 await appIcon(markPng, 192, 0.1, "public/icons/icon-192.png");

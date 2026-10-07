@@ -22,7 +22,7 @@ export function PriceModeToggle({ mode, onChange }: { mode: PriceMode; onChange:
             aria-checked={active}
             onClick={() => onChange(m.value)}
             className={`min-h-8 rounded-md px-2.5 font-ui text-xs font-bold tracking-wide whitespace-nowrap transition-colors ${
-              active ? "bg-accent text-bg" : "text-muted hover:text-text"
+              active ? "bg-accent-gradient text-on-accent" : "text-muted hover:text-text"
             }`}
           >
             {m.label}

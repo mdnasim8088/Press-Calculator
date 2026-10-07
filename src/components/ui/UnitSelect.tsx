@@ -23,7 +23,7 @@ export function UnitSelect({ value, onChange, units = UNITS, label = "Unit" }: U
             aria-checked={active}
             onClick={() => onChange(u)}
             className={`hud-clip-sm min-h-9 px-3 font-ui text-sm font-bold tracking-wide transition-colors ${
-              active ? "bg-accent text-bg" : "bg-surface-2 text-muted hover:text-text"
+              active ? "bg-accent-gradient text-on-accent" : "bg-surface-2 text-muted hover:text-text"
             }`}
           >
             {unitLabel(u)}

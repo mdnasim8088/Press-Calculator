@@ -18,12 +18,12 @@ export const metadata: Metadata = {
   title: { default: "Press Calculator", template: "%s · Press Calculator" },
   description: "Calculator for printing, stickers, cutter stickers, banners and vinyl: area, sheets, material and price.",
   applicationName: "Press Calculator",
-  appleWebApp: { capable: true, title: "Press Calc", statusBarStyle: "black-translucent" },
+  appleWebApp: { capable: true, title: "Press Calc", statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#071216",
-  colorScheme: "dark",
+  themeColor: "#ffffff",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",

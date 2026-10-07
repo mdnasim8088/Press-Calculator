@@ -1,7 +1,7 @@
 type StatTone = "accent" | "success" | "warning" | "danger";
 
 const BAR: Record<StatTone, string> = {
-  accent: "bg-accent shadow-[0_0_10px_var(--accent-glow)]",
+  accent: "bg-accent-gradient",
   success: "bg-success",
   warning: "bg-warning",
   danger: "bg-danger",

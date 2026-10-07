@@ -1,24 +1,33 @@
 @import "tailwindcss";
 
-/* Theme tokens: dark teal HUD style (see calculator.md, Step 4). */
+/*
+ * Theme tokens: white background with a Fiverr-style green gradient.
+ * Layout and HUD shapes are unchanged; only colours live here.
+ * Contrast on white: accent 3.2:1 (bold/large text, icons), text 15.7:1, muted 5.9:1.
+ */
 :root {
-  --bg: #071216;
-  --bg-glow: #0b2630;
-  --surface: rgba(14, 33, 41, 0.72);
-  --surface-solid: #0e2129;
-  --surface-2: #13303a;
-  --border: #1e4450;
-  --accent: #38c6e0;
-  --accent-strong: #5fd6ec;
-  --accent-glow: rgba(56, 198, 224, 0.35);
-  --accent-soft: #1c5a68;
-  --text: #e6f5f8;
-  --text-muted: #8aaab3;
-  --success: #3ddc97;
-  --warning: #f5b841;
-  --danger: #f2545b;
+  --bg: #ffffff;
+  --bg-glow: #eafbf2;
+  --surface: #ffffff;
+  --surface-solid: #ffffff;
+  --surface-2: #f5f6f7;
+  --border: #dadbdd;
+  --accent: #19a463;
+  --accent-strong: #108a5a;
+  --accent-bright: #1dbf73;
+  --accent-deep: #0a7a43;
+  --accent-glow: rgba(29, 191, 115, 0.22);
+  --accent-soft: #e3f6ec;
+  --accent-gradient: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+  --on-accent: #ffffff;
+  --text: #222325;
+  --text-muted: #62646a;
+  --success: #0e9f5e;
+  --warning: #c2410c;
+  --danger: #d93025;
+  --shadow: 0 1px 2px rgba(34, 35, 37, 0.05), 0 6px 20px rgba(34, 35, 37, 0.06);
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 @theme inline {
@@ -30,6 +39,8 @@
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
   --color-accent-soft: var(--accent-soft);
+  --color-accent-bright: var(--accent-bright);
+  --color-on-accent: var(--on-accent);
   --color-text: var(--text);
   --color-muted: var(--text-muted);
   --color-success: var(--success);
@@ -48,8 +59,8 @@ html {
 
 body {
   background:
-    radial-gradient(ellipse 80% 60% at 70% 0%, var(--bg-glow) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 50% at 0% 100%, #0a1f27 0%, transparent 70%),
+    radial-gradient(ellipse 80% 55% at 75% 0%, var(--bg-glow) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 45% at 0% 100%, #f2fcf7 0%, transparent 70%),
     var(--bg);
   background-attachment: fixed;
   color: var(--text);
@@ -79,18 +90,30 @@ input[type="number"] {
 @utility glass {
   background: var(--surface);
   border: 1px solid var(--border);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
 }
 
 @utility glow {
   box-shadow:
     0 0 0 1px var(--accent),
-    0 0 18px var(--accent-glow);
+    0 4px 18px var(--accent-glow);
 }
 
 @utility text-glow {
-  text-shadow: 0 0 18px var(--accent-glow);
+  text-shadow: 0 2px 14px var(--accent-glow);
+}
+
+/* Fiverr-style green gradient fill (white text stays readable on it). */
+@utility bg-accent-gradient {
+  background-image: var(--accent-gradient);
+}
+
+/* Gradient-coloured text for large headings and key numbers. */
+@utility text-accent-gradient {
+  background-image: linear-gradient(135deg, var(--accent-bright) 0%, var(--accent-deep) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* Angled HUD corners (top-left and bottom-right). */
@@ -115,10 +138,10 @@ input[type="number"] {
     opacity: 0;
   }
   15% {
-    opacity: 0.55;
+    opacity: 0.3;
   }
   85% {
-    opacity: 0.55;
+    opacity: 0.3;
   }
   100% {
     transform: translateY(-110vh) rotate(160deg);

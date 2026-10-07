@@ -23,7 +23,7 @@ export function CategoryTabs() {
               >
                 {tab.label}
                 {active && (
-                  <span className="absolute inset-x-2 -bottom-px h-0.5 bg-accent shadow-[0_0_10px_var(--accent)]" />
+                  <span className="absolute inset-x-2 -bottom-px h-0.5 bg-accent-gradient" />
                 )}
               </Link>
             </li>
