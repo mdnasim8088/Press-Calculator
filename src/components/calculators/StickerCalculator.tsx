@@ -35,7 +35,7 @@ interface SheetFormState {
   priceMode: PriceMode;
 }
 
-export function SheetCalculator() {
+export function StickerCalculator() {
   const hydrated = useStoresHydrated();
   if (!hydrated) return <div className="glass h-96 animate-pulse rounded-xl" aria-busy />;
   return <SheetForm />;
@@ -45,7 +45,7 @@ function SheetForm() {
   const settings = useSettings();
   const currency = settings.currency;
   // A fresh visit starts empty, like a calculator showing 0; gap, unit and price come from Settings.
-  const [form, update] = useFormState<SheetFormState>("sheet", () => ({
+  const [form, update] = useFormState<SheetFormState>("sticker", () => ({
     quantity: "",
     width: "",
     height: "",

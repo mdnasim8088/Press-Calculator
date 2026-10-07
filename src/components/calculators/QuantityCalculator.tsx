@@ -16,7 +16,7 @@ import { Panel } from "@/components/ui/Panel";
 import { PriceField, PriceModeToggle } from "@/components/ui/PriceField";
 import { UnitSelect } from "@/components/ui/UnitSelect";
 import { RollPreview, type RollPiece } from "./RollPreview";
-import { OrientationCard, SheetResult, STICKER_UNITS } from "./SheetCalculator";
+import { OrientationCard, SheetResult, STICKER_UNITS } from "./StickerCalculator";
 
 /** The cutter-sticker roll is always 1 m wide. */
 const ROLL_WIDTH_METERS = 1;

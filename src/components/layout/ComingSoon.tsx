@@ -22,10 +22,10 @@ export function ComingSoon({ href, tabs }: { href: string; tabs?: boolean }) {
             <Help k="page.soon" className="mt-1 text-center" />
           </div>
           <Link
-            href="/sheet"
+            href="/sticker"
             className="inline-flex items-center gap-1 font-ui text-sm font-bold uppercase tracking-widest text-accent hover:underline"
           >
-            Open sheet calculator <ChevronRight size={16} />
+            Open sticker calculator <ChevronRight size={16} />
           </Link>
         </div>
       </Panel>

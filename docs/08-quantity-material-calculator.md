@@ -1,6 +1,6 @@
 # 08 · Quantity → Required Material  ✅ built (Sheet page)
 
-Route: `/sheet` · UI: `SheetCalculator.tsx`, `SheetPreview.tsx` · Engine: `calculateSheet()` (`sheet.ts`), `calculateRoll()` (`roll.ts`)
+Route: `/sticker` (old `/sheet` redirects here; page title "Sticker Calculator") · UI: `StickerCalculator.tsx`, `SheetPreview.tsx` · Engine: `calculateSheet()` (`sheet.ts`), `calculateRoll()` (`roll.ts`)
 
 ## Two modes, shown side by side
 | Mode | Meaning | Example (5×7 cm, 500 pcs) |

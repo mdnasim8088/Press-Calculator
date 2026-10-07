@@ -13,10 +13,10 @@
 | `layout.tsx` `viewport` | theme colour, `viewportFit: cover` (notch safe area) |
 
 ## Offline strategy (`sw.js`)
-- Precache `/`, `/calculator`, `/sheet`, `/quantity`, `/banner`, `/settings` and the logo images.
+- Precache `/`, `/calculator`, `/sticker`, `/quantity`, `/banner`, `/settings` and the logo images.
 - Navigations: network first → cached page → cached `/`.
 - `_next/static`, fonts, icons: cache first.
-- Bump `CACHE` (`press-calc-v4`) when the caching logic changes.
+- Bump `CACHE` (`press-calc-v5`) when the caching logic changes.
 
 All math runs on the device, so calculators work fully offline.
 

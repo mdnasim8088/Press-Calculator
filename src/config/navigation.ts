@@ -45,7 +45,7 @@ export const FEATURED_TOOL: Tool = {
 
 export const TOOLS: Tool[] = [
   FEATURED_TOOL,
-  { href: "/sheet", title: "Sheet", help: "tool.sheet", icon: Scissors, status: "ready", group: "calculate" },
+  { href: "/sticker", title: "Sticker", help: "tool.sticker", icon: Scissors, status: "ready", group: "calculate" },
   { href: "/quantity", title: "Quantity", help: "tool.quantity", icon: Layers, status: "ready", group: "calculate" },
   { href: "/banner", title: "Banner", help: "tool.banner", icon: Flag, status: "ready", group: "calculate" },
   { href: "/packing", title: "Sticker Packing", help: "tool.packing", icon: LayoutGrid, status: "soon", group: "calculate" },
@@ -81,7 +81,7 @@ export interface NavItem {
 export const RAIL_ITEMS: NavItem[] = [
   { href: "/", label: "Home", icon: House },
   { href: "/calculator", label: "Calculator", icon: Calculator },
-  { href: "/sheet", label: "Sheet", icon: Scissors },
+  { href: "/sticker", label: "Sticker", icon: Scissors },
   { href: "/quantity", label: "Quantity", icon: Layers },
   { href: "/banner", label: "Banner", icon: Flag },
   { href: "/presets", label: "Presets", icon: Bookmark },
@@ -93,7 +93,7 @@ export const RAIL_ITEMS: NavItem[] = [
 export const BOTTOM_ITEMS: NavItem[] = [
   { href: "/", label: "Home", icon: House },
   { href: "/calculator", label: "Calc", icon: Calculator },
-  { href: "/sheet", label: "Sheet", icon: Scissors },
+  { href: "/sticker", label: "Sticker", icon: Scissors },
   { href: "/banner", label: "Banner", icon: Flag },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
@@ -101,7 +101,7 @@ export const BOTTOM_ITEMS: NavItem[] = [
 /** Category tabs above calculator pages. */
 export const CATEGORY_TABS: NavItem[] = [
   { href: "/calculator", label: "Calc", icon: Calculator },
-  { href: "/sheet", label: "Sheet", icon: Scissors },
+  { href: "/sticker", label: "Sticker", icon: Scissors },
   { href: "/quantity", label: "Quantity", icon: Layers },
   { href: "/banner", label: "Banner", icon: Flag },
   { href: "/packing", label: "Packing", icon: LayoutGrid },

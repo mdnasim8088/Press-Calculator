@@ -1,8 +1,8 @@
 // Press Calculator service worker: offline support.
 // Pages: network first, falling back to the cached copy when offline.
 // Static assets (_next/static, icons, fonts): cache first.
-const CACHE = "press-calc-v4";
-const PRECACHE = ["/", "/calculator", "/sheet", "/quantity", "/banner", "/settings", "/brand/logo-mark.png", "/brand/logo-wordmark.png"];
+const CACHE = "press-calc-v5";
+const PRECACHE = ["/", "/calculator", "/sticker", "/quantity", "/banner", "/settings", "/brand/logo-mark.png", "/brand/logo-wordmark.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(PRECACHE)));

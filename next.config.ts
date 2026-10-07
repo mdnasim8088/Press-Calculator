@@ -17,6 +17,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/roll", destination: "/quantity", permanent: true },
       { source: "/area", destination: "/banner", permanent: true },
+      { source: "/sheet", destination: "/sticker", permanent: true },
     ];
   },
 };
