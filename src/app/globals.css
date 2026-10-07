@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/* Theme tokens: dark teal HUD style (see calculator.md, Step 4). */
+:root {
+  --bg: #071216;
+  --bg-glow: #0b2630;
+  --surface: rgba(14, 33, 41, 0.72);
+  --surface-solid: #0e2129;
+  --surface-2: #13303a;
+  --border: #1e4450;
+  --accent: #38c6e0;
+  --accent-strong: #5fd6ec;
+  --accent-glow: rgba(56, 198, 224, 0.35);
+  --accent-soft: #1c5a68;
+  --text: #e6f5f8;
+  --text-muted: #8aaab3;
+  --success: #3ddc97;
+  --warning: #f5b841;
+  --danger: #f2545b;
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-solid: var(--surface-solid);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
+  --font-display: var(--font-orbitron);
+  --font-ui: var(--font-rajdhani);
+  --font-sans: var(--font-inter), var(--font-bengali), var(--font-arabic);
+  --font-mono: var(--font-jetbrains);
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 0%, var(--bg-glow) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 0% 100%, #0a1f27 0%, transparent 70%),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--font-inter), var(--font-bengali), var(--font-arabic), system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Hide number spinners: values are typed, and the keypad opens via inputMode. */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@utility glass {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@utility glow {
+  box-shadow:
+    0 0 0 1px var(--accent),
+    0 0 18px var(--accent-glow);
+}
+
+@utility text-glow {
+  text-shadow: 0 0 18px var(--accent-glow);
+}
+
+/* Angled HUD corners (top-left and bottom-right). */
+@utility hud-clip {
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+@utility hud-clip-sm {
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes float-up {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.55;
+  }
+  85% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translateY(-110vh) rotate(160deg);
+    opacity: 0;
+  }
+}
+
+.particle {
+  position: absolute;
+  bottom: -20px;
+  width: 5px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--accent);
+  filter: blur(1px);
+  animation: float-up linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .particle {
+    display: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
