@@ -25,11 +25,11 @@
 ```
 src/
 ├── core/          engine (see 04-calculation-rules.md)
-├── app/           routes: /, /sheet, /area, /settings + placeholders
+├── app/           routes: /, /calculator, /sheet, /quantity, /banner, /settings + placeholders (/roll → /quantity, /area → /banner redirect)
 ├── components/
 │   ├── ui/        Panel, Stat, StatBar, Badge, HudButton, NumberInput, UnitSelect
 │   ├── layout/    IconRail, BottomNav, CategoryTabs, PageHeader, Particles, ClientBoot
-│   └── calculators/ SheetCalculator, SheetPreview, AreaCalculator, SettingsForm
+│   └── calculators/ BasicCalculator, SheetCalculator, SheetPreview, QuantityCalculator, RollPreview, BannerCalculator, SettingsForm
 ├── config/        navigation.ts (single source for menus and tool list)
 ├── stores/        settings.ts (Zustand + persist)
 └── lib/           format.ts, try-calc.ts

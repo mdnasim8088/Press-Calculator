@@ -1,6 +1,6 @@
-# 06 · Material Area & Price Calculator  ✅ built
+# 06 · Banner Calculator (material area & price)  ✅ built
 
-Route: `/area` · UI: `src/components/calculators/AreaCalculator.tsx` · Engine: `calculateArea()` in `src/core/area.ts`
+Route: `/banner` (old `/area` redirects here) · UI: `src/components/calculators/BannerCalculator.tsx` · Engine: `calculateArea()` in `src/core/area.ts`
 
 ## Inputs
 Width, height, unit (mm/cm/m/inch/ft), price per m², quantity.

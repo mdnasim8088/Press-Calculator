@@ -15,7 +15,7 @@ import { Panel } from "@/components/ui/Panel";
 import { Stat } from "@/components/ui/Stat";
 import { UnitSelect } from "@/components/ui/UnitSelect";
 
-interface AreaFormState {
+interface BannerFormState {
   width: string;
   height: string;
   unit: Unit;
@@ -23,17 +23,17 @@ interface AreaFormState {
   quantity: string;
 }
 
-export function AreaCalculator() {
+export function BannerCalculator() {
   const hydrated = useStoresHydrated();
   if (!hydrated) return <div className="glass h-96 animate-pulse rounded-xl" aria-busy />;
-  return <AreaForm />;
+  return <BannerForm />;
 }
 
-function AreaForm() {
+function BannerForm() {
   const settings = useSettings();
   const currency = settings.currency;
   // A fresh visit starts empty, like a calculator showing 0; unit and price come from Settings.
-  const [form, update] = useFormState<AreaFormState>("area", () => ({
+  const [form, update] = useFormState<BannerFormState>("banner", () => ({
     width: "",
     height: "",
     unit: settings.defaultUnit,
@@ -66,7 +66,7 @@ function AreaForm() {
       </Panel>
 
       {anyEmpty(width, height) ? (
-        <EmptyResult first="Total price" second="Total area" help="empty.area" />
+        <EmptyResult first="Total price" second="Total area" help="empty.banner" />
       ) : (
       <Panel index={2} title="Result">
         {!result.ok ? (

@@ -1,6 +1,6 @@
-# 09 · Roll Calculator  ✅ built
+# 09 · Quantity Calculator (roll for quantity)  ✅ built
 
-Route: `/roll` · UI: `RollCalculator.tsx`, `RollPreview.tsx` · Engine: `calculateSheet()` (`src/core/sheet.ts`)
+Route: `/quantity` (old `/roll` redirects here) · UI: `QuantityCalculator.tsx`, `RollPreview.tsx` · Engine: `calculateSheet()` (`src/core/sheet.ts`)
 
 Width is always 1 m (cutter sticker rule). The page has **one option: Roll for quantity**.
 
@@ -13,7 +13,7 @@ Same engine as the Sheet page (doc 08): 1 m × 1 m sheets, the last row complete
 |---|---|
 | 500 pcs, 5 × 7 cm, gap 0.5 | 234 per sheet · **3 sheets → 1 m × 3 m** · last sheet 14.5 cm used, **85.5 cm empty** · used after completing the row **2.145 m** · 150 SAR (used 107.25 SAR) |
 
-The Roll page adds a **roll preview**: the roll drawn sideways with every sheet outlined (Sheet 1, Sheet 2, … last), the empty part of the last sheet hatched in orange, and a caption with sheets, empty length and metres used. Long jobs show the first 2 and last 3 sheets with a "… +N" marker.
+The Quantity page adds a **roll preview**: the roll drawn sideways with every sheet outlined (Sheet 1, Sheet 2, … last), the empty part of the last sheet hatched in orange, and a caption with sheets, empty length and metres used. Long jobs show the first 2 and last 3 sheets with a "… +N" marker.
 
 Inputs: quantity, unit, sticker width/height, gap (quick buttons), price per m² or per meter (optional; empty = 0).
 

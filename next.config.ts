@@ -12,6 +12,13 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  // Pages were renamed: keep old bookmarks and installed shortcuts working.
+  redirects() {
+    return [
+      { source: "/roll", destination: "/quantity", permanent: true },
+      { source: "/area", destination: "/banner", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

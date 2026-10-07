@@ -21,7 +21,7 @@ import { OrientationCard, SheetResult, STICKER_UNITS } from "./SheetCalculator";
 /** The cutter-sticker roll is always 1 m wide. */
 const ROLL_WIDTH_METERS = 1;
 
-interface RollFormState {
+interface QuantityFormState {
   quantity: string;
   width: string;
   height: string;
@@ -32,20 +32,20 @@ interface RollFormState {
 }
 
 /**
- * Roll for quantity: how much 1 m roll a job needs, using the sheet method.
+ * Quantity: how much 1 m roll a job needs for a number of pieces, using the sheet method.
  * (The "pieces in roll" engine, calculateSheetCapacity, is kept in src/core for later use.)
  */
-export function RollCalculator() {
+export function QuantityCalculator() {
   const hydrated = useStoresHydrated();
   if (!hydrated) return <div className="glass h-96 animate-pulse rounded-xl" aria-busy />;
-  return <RollForm />;
+  return <QuantityForm />;
 }
 
-function RollForm() {
+function QuantityForm() {
   const settings = useSettings();
   const currency = settings.currency;
   // A fresh visit starts empty, like a calculator showing 0; gap, unit and price come from Settings.
-  const [form, update] = useFormState<RollFormState>("roll", () => ({
+  const [form, update] = useFormState<QuantityFormState>("quantity", () => ({
     quantity: "",
     width: "",
     height: "",
