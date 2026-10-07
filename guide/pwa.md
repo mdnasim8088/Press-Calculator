@@ -7,10 +7,10 @@ PWA মানে ওয়েবসাইটটা ফোনের হোম স
 | ফাইল | কী করে |
 |---|---|
 | `src/app/manifest.ts` | অ্যাপের পরিচয়: নাম "Press Calculator", রঙ `#071216`, আইকন, পুরো স্ক্রিনে খোলা (standalone)। |
-| `brand/source/` | **আপনার আসল লোগো** (কালো-সাদা): `logo-mark.webp` (TA গোল), `logo-wordmark.webp` (TA + TUSAR AHAMMAD) |
-| `scripts/build-brand.mjs` | লোগোকে থিমের রঙে বদলায়: TA সায়ান, নাম হালকা রঙে, পেছন স্বচ্ছ। সব আইকন বানায়। লোগো বদলালে চালান: `npm run brand` |
-| `public/brand/logo-mark.png`, `logo-wordmark.png` | অ্যাপের ভেতরে দেখানো লোগো (বাম মেনু, হোম পেজ) |
-| `public/icons/icon-192.png`, `icon-512.png` | ফোনে ইনস্টল করলে অ্যাপের আইকন (TA লোগো, গাঢ় ব্যাকগ্রাউন্ডে সায়ান) |
+| `brand/source/taghareed-logo.png` | **আসল Taghareed লোগো** (وكالة تغاريد + TAGHAREED + পাখি, সাদা পেছনে) |
+| `scripts/build-brand.mjs` | সাদা পেছন স্বচ্ছ করে (লোগোর নিজের নেভি আর সবুজ রঙ থাকে), পুরো লোগো আর শুধু পাখির আইকন বানায়। লোগো বদলালে চালান: `npm run brand` |
+| `public/brand/logo-mark.png` (পাখি), `logo-wordmark.png` (পুরো লোগো) | অ্যাপের ভেতরে দেখানো লোগো (বাম মেনু, হোম পেজ) |
+| `public/icons/icon-192.png`, `icon-512.png` | ফোনে ইনস্টল করলে অ্যাপের আইকন (সাদার উপর Taghareed পাখি) |
 | `public/icons/icon-maskable-512.png` | Android-এর গোল বা স্কয়ার আইকনের জন্য, চারপাশে বাড়তি জায়গা রাখা। |
 | `src/app/icon.png` | ব্রাউজার ট্যাবের ছোট আইকন (favicon)। |
 | `src/app/apple-icon.png` | iPhone-এর হোম স্ক্রিনের আইকন। |

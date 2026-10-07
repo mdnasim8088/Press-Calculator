@@ -4,7 +4,7 @@
 | File | Purpose |
 |---|---|
 | `src/app/manifest.ts` | name, `standalone`, portrait, theme/background `#071216`, icons |
-| `public/icons/icon-192.png`, `icon-512.png`, `icon-maskable-512.png` | install icons: the TA logo mark in accent cyan on `#071216` |
+| `public/icons/icon-192.png`, `icon-512.png`, `icon-maskable-512.png` | install icons: the Taghareed bird on white |
 | `public/brand/logo-mark.png`, `logo-wordmark.png` | logo shown in the app (icon rail, home page) |
 | `brand/source/*.webp` + `scripts/build-brand.mjs` | original black logos; `npm run brand` recolours them and rebuilds every icon |
 | `src/app/icon.png`, `src/app/apple-icon.png` | favicon and iPhone icon (generated) |

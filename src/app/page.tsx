@@ -57,7 +57,7 @@ export default function HomePage() {
         <div aria-hidden className="absolute -top-24 -right-16 h-64 w-64 rounded-full bg-accent/20 blur-3xl" />
         <div className="relative flex flex-wrap items-center justify-between gap-4">
           <span className="w-44 sm:w-56">
-            <Wordmark height={44} />
+            <Wordmark height={64} />
           </span>
           <LangToggle className="ml-auto" />
         </div>

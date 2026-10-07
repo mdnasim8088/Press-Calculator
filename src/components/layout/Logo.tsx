@@ -1,34 +1,26 @@
 import Image from "next/image";
 
+const BRAND = "Taghareed Agency (وكالة تغاريد)";
+
 /**
- * TA circle mark (Tusar Ahammad), in the theme green gradient. Built by scripts/build-brand.mjs.
+ * Taghareed bird mark, in the logo's own colours. Built by scripts/build-brand.mjs.
  * Served as-is (unoptimized) so a rebuilt logo shows immediately instead of a cached copy.
  */
 export function Logo({ size = 40 }: { size?: number }) {
-  return (
-    <Image
-      src="/brand/logo-mark.png"
-      alt="Tusar Ahammad"
-      width={size}
-      height={size}
-      priority
-      unoptimized
-      className="drop-shadow-[0_0_8px_var(--accent-glow)]"
-    />
-  );
+  return <Image src="/brand/logo-mark.png" alt={BRAND} width={size} height={size} priority unoptimized />;
 }
 
-/** TA mark + TUSAR AHAMMAD name. Source image is 1030 × 200. */
+/** Full Taghareed logo: Arabic name, TAGHAREED and the bird. Source image is 698 × 240. */
 export function Wordmark({ height = 40 }: { height?: number }) {
   return (
     <Image
       src="/brand/logo-wordmark.png"
-      alt="Tusar Ahammad"
-      width={Math.round((height * 1030) / 200)}
+      alt={BRAND}
+      width={Math.round((height * 698) / 240)}
       height={height}
       priority
       unoptimized
-      className="h-auto max-w-full drop-shadow-[0_0_10px_var(--accent-glow)]"
+      className="h-auto max-w-full"
     />
   );
 }
